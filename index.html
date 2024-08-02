@@ -47,10 +47,11 @@
             background: rgba(0, 0, 0, 0.7);
             border-radius: 15px;
             padding: 30px;
-            max-width: 600px;
+            max-width: 1000px;
             width: 90%;
             box-shadow: 0 0 30px rgba(0, 123, 255, 0.5);
             position: relative;
+            overflow: hidden;
         }
 
         h1 {
@@ -107,23 +108,22 @@
         }
 
         .confession {
-            font-size: 1.2em;
-            margin-bottom: 10px;
-            height: 100px;
+            width: 100%;
+            height: 500px; 
             display: flex;
             align-items: center;
             justify-content: center;
             background: rgba(0, 0, 0, 0.4);
             border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+            overflow: hidden;
+            position: relative;
         }
 
-        .confession-header {
-            font-size: 1.5em;
-            margin-bottom: 15px;
-            color: #00bfff;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+        .confession img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
         }
 
         @media (max-width: 600px) {
@@ -138,6 +138,10 @@
             .status {
                 font-size: 1em;
             }
+
+            .confession {
+                height: 300px;
+            }
         }
     </style>
 </head>
@@ -145,15 +149,16 @@
 <body>
     <div class="background-animation"></div>
     <div class="container">
-        <h1>SB Reveals</h1>
+        <h1>SB Reveals DEV</h1>
         <div class="loader"></div>
         <div class="countdown" id="countdown">Connecting...</div>
         <div class="status" id="status">Verifying details... <span id="verification-step"></span></div>
 
         <!-- Entertainment Section -->
         <div class="entertainment">
-            <div class="confession-header">Latest Confessions</div>
-            <div class="confession" id="confession">Fetching the latest confessions... </div>
+            <div class="confession" id="confession">
+                
+            </div>
         </div>
     </div>
 
@@ -161,7 +166,7 @@
         function redirectToNewSite() {
             setTimeout(() => {
                 window.location.href = 'https://confessnow.online/';
-            }, 1);
+            }, 500000); 
         }
 
         // Countdown Timer and Status Updates
@@ -199,23 +204,29 @@
             }, 1000);
         }
 
-        // Confession Quotes
+        // Confession Images
         const confessions = [
-            "Shabari stole my heart at first glance",
-            "1st year തുടക്കത്തിൽ മാത്രം കണ്ടുവരുന്ന ഈ പ്രതിഭാസം എത്ര നാൾ നിലനിൽക്കും? Enn sneham porvam njn st.",
-            "എനിക്ക് 2nd year chemistry dept ലെ Devdutt chettane ishtama❤️❤️",
-            "Josey from second year Bca he stole my heart",
+            'https://cdn.discordapp.com/attachments/1269006171902054551/1269006493789847623/sbr_7.png?ex=66ae7de5&is=66ad2c65&hm=af40aaffd74f378dd0a926a0fec826d9ec64b323e7bedfc763f01749541fdef9&',
+            'https://cdn.discordapp.com/attachments/1269006171902054551/1269006494603673640/sbr_9.png?ex=66ae7de5&is=66ad2c65&hm=0206781b84b1c5f094032a47e867ff8ca93ec7a4042aab74df8d9a88cd228952&',
+            'https://cdn.discordapp.com/attachments/1269006171902054551/1269006495459311756/sbr_11.png?ex=66ae7de5&is=66ad2c65&hm=ceaff895c788c8a1f78334a4d58c855773d660acdc4516527230767c7c93fcd4&',
+            'https://cdn.discordapp.com/attachments/1269006171902054551/1269006495790530570/sbr_2.png?ex=66ae7de5&is=66ad2c65&hm=437493b3c73a252632fb5fa950b96ddc27842f571daa1b88e71229e8a6d8295a&',
+            'https://cdn.discordapp.com/attachments/1269006171902054551/1269006496209965157/sbr_4.png?ex=66ae7de5&is=66ad2c65&hm=bdc7ac7b6c91a48a75ba35a9bb1591508adb000ff288770af44354662f073ca3&',
+            'https://cdn.discordapp.com/attachments/1269006171902054551/1269006496570544303/sbr_6.png?ex=66ae7de5&is=66ad2c65&hm=57140b7aae9b018933df89e65d17590220b9d81a8310c36dae99ff15b830bab5&'
 
         ];
 
-        function rotateConfessions() {
+        function displayConfessions() {
             const confessionElement = document.getElementById('confession');
             let index = 0;
 
+            // Immediately display the first image
+            confessionElement.innerHTML = `<img src="${confessions[index]}" alt="Confession Image">`;
+
+            // Rotate through confession images every 5 seconds
             setInterval(() => {
                 index = (index + 1) % confessions.length;
-                confessionElement.textContent = `"${confessions[index]}"`;
-            }, 5000);
+                confessionElement.innerHTML = `<img src="${confessions[index]}" alt="Confession Image">`;
+            }, 5000); // Change image every 5 seconds
         }
 
         // Initialize
@@ -227,8 +238,8 @@
             // Start countdown timer
             startCountdown(50, countdownElement, statusElement, verificationStepElement);
 
-            // Start rotating confessions
-            rotateConfessions();
+            // Display confession images immediately
+            displayConfessions();
 
             // Redirect after countdown
             redirectToNewSite();
